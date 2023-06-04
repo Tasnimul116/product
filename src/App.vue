@@ -1,20 +1,24 @@
 <template>
   <div id="app">
-    <div class="container  w-auto h-auto">
-      <h3 class="catagory md-5 text-2xl m-4">Product Categories</h3>
+    <div class="container w-auto h-auto">
+      <h3 class="category md-5 text-2xl m-4">Product Categories</h3>
       <div v-for="(products, category) in jsonData" :key="category" class="category-wrapper">
-        <ul @click="toggleProducts(category)" class="category  bg-slate-600 w-auto  " :class="{ active: selectedCategory === category }">
-         <li class="cursor-pointer flex justify-start hover:bg-slate-50 text-xl p-2 border-b">
-          {{ category }}
-        </li> 
+        <ul @click="toggleProducts(category)" class="category bg-slate-600 w-auto" :class="{ active: selectedCategory === category }">
+          <li class="cursor-pointer flex justify-start align-center hover:bg-slate-50 text-xl p-2 border-b">
+            <div class="mr-2">
+              <i :class="Category === category && showProducts ? 'fas fa-minus' : 'fas fa-plus'" ></i>
+            </div>
+           
+            {{ category }}
+          </li>
         </ul>
-        <div class="product" v-if="selectedCategory === category && showProducts">
+        <div class="product" v-if="Category === category && showProducts">
           <div class="product-item bg-white" v-for="product in products" :key="product.id">
             <div @click="toggleOptions(product)" class="product-name cursor-pointer justify-center flex align-center border-b hover:text-slate-200 hover:bg-indigo-600">
               {{ product.name }}
             </div>
-            <ul v-if="product.showOptions" class="product-options cursor-pointer" >
-              <li v-for="option in product.options" :key="option" class="hover:text-slate-200 hover:bg-indigo-600  flex justify-center border-b align-center " >
+            <ul v-if="product.showOptions" class="product-options cursor-pointer">
+              <li v-for="option in product.options" :key="option" class="hover:text-slate-200 hover:bg-indigo-600 flex justify-center border-b align-center">
                 {{ option }}
               </li>
             </ul>
@@ -24,7 +28,6 @@
     </div>
   </div>
 </template>
-
 
 
 <script>
@@ -37,7 +40,7 @@ export default {
           {
             "id": 1,
             "name": "Dell",
-            "options": ["Dell 24inch monitor", "Dell 18 inch monitor", "Dell 32 inch monitor"]
+            "options": ["monitor 24inch", "monitor 18inch ", "monitor 22inch"]
 
           },
           {
@@ -117,21 +120,24 @@ export default {
 
 
 
-      selectedCategory: null,
+      Category: null,
       showProducts: false
     };
   },
   methods: {
     toggleProducts(category) {
-      if (this.selectedCategory === category) {
-        this.showProducts = !this.showProducts;
-      } else {
-        this.selectedCategory = category;
-        this.showProducts = true;
-      }
-    }, toggleOptions(product) {
+  if (this.Category === category && this.showProducts) {
+    this.showProducts = false;
+  } else {
+    this.Category = category;
+    this.showProducts = true;
+  }
+},
+
+ toggleOptions(product) {
       product.showOptions = !product.showOptions;
-    }
+    },
+
   }
 };
 </script>
@@ -156,6 +162,6 @@ export default {
   color: black;
 }
 .product-name{
-  background-color: rgb(202, 201, 200);
+  background-color: rgb(217, 181, 181);
 }
 </style>
